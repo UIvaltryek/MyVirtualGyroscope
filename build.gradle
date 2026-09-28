@@ -5,6 +5,7 @@ buildscript {
         jcenter()
         maven { url "https://maven.google.com" }
         mavenCentral()
+        maven { url "https://api.xposed.info/" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'
@@ -19,6 +20,7 @@ allprojects {
         jcenter()
         maven { url "https://maven.google.com" }
         mavenCentral()
+        maven { url "https://api.xposed.info/" }
     }
 }
 
