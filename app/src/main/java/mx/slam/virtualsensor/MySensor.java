@@ -188,22 +188,28 @@ public class MySensor implements IXposedHookLoadPackage {
                 Log.e(TAG, "IllegalAccess: " + e.getMessage(), e);
             }
 
-            // Real accelerometer listener.
+                        // Real accelerometer listener.
             acc_listener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
-                    //String acc = event.values[0] + ";" + event.values[1] + ";" + event.values[2];
-                    //acc_vals.setText(acc);
+                    // 1. Calculate the difference (speed of movement) between this frame and the last
+                    float deltaX = event.values[0] - last_acc[0];
+                    float deltaY = event.values[1] - last_acc[1];
+                    float deltaZ = event.values[2] - last_acc[2];
 
-                    last_acc = event.values;
-                    putVectorDataOnVirtualSensors(last_acc);
+                    // 2. Save the current values for the next frame using .clone()
+                    // CRITICAL: You must use .clone() because Android reuses the event.values memory array!
+                    last_acc = event.values.clone();
+
+                    // 3. Pass the calculated deltas (angular velocity) to the virtual sensors
+                    putVectorDataOnVirtualSensors(new float[]{deltaX, deltaY, deltaZ});
                 }
 
                 @Override
                 public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
                 }
             };
+
             magnetic_listener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
