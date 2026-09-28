@@ -17,11 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-}
-android {
-    lint {
-        abortOnError = false
+    lintOptions {
+        abortOnError false
     }
+}
 //dependencies {
     //implementation fileTree(dir: 'libs', include: ['*.jar'])
     //testCompile 'junit:junit:4.12'
